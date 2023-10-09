@@ -1,19 +1,19 @@
 ﻿namespace miArray
 {
-    public class Array
+    public class ArrayAsincronico
     {
         private int[] _Array;
         private int _numerosAleatorio;
         private Random _generadorAleatorio;
         private object _bloqueo = new object();
 
-        public Array(int tamañoArray, int numeroAleatorio)
+        public ArrayAsincronico(int tamañoArray, int numeroAleatorio)
         {
             _Array = new int[tamañoArray];
 
             _numerosAleatorio = numeroAleatorio;
 
-            _generadorAleatorio = new Random();
+            _generadorAleatorio = new Random(1);
 
             LlenarArrayConNumerosAleatorios();
 
@@ -30,7 +30,7 @@
             }
         }
 
-        public int BuscarMayorPrimeraMitad()
+        public async Task<int> BuscarMayorPrimeraMitad()
         {
             lock (_bloqueo)
             {
@@ -47,7 +47,7 @@
                 return mayorEnPrimeraMitad;
             }
         }
-        public int BuscarMayorSegundaMitad()
+        public async Task<int> BuscarMayorSegundaMitad()
         {
             lock (_bloqueo)
             {
@@ -67,22 +67,29 @@
             }
         }
 
-        public int BuscarMayorDelArrayCompleto()
+        public async Task<int> BuscarMayorDelArrayCompleto()
         {
 
-            int mayorPrimeraMitad = BuscarMayorPrimeraMitad();
-            int mayorSegundaMitad = BuscarMayorSegundaMitad();
+            Task<int> mayorPrimeraMitad = BuscarMayorPrimeraMitad();
+            Task<int> mayorSegundaMitad = BuscarMayorSegundaMitad();
 
 
-            if (mayorPrimeraMitad < mayorSegundaMitad)
+
+            await Task.WhenAll(mayorPrimeraMitad, mayorSegundaMitad);
+
+
+            int numeroArray1 = await mayorPrimeraMitad;
+            int numeroArray2 = await mayorSegundaMitad;
+
+            if (numeroArray1 < numeroArray2)
             {
-                Console.WriteLine(mayorSegundaMitad);
-                return mayorSegundaMitad;
+                Console.WriteLine(numeroArray2);
+                return numeroArray2;
             }
             else
             {
-                Console.WriteLine(mayorPrimeraMitad);
-                return mayorPrimeraMitad;
+                Console.WriteLine(numeroArray1);
+                return numeroArray1;
             }
         }
     }
