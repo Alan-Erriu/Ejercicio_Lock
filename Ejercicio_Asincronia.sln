@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33801.468
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ejercicio_Asincronia", "Ejercicio_Asincronia\Ejercicio_Asincronia.csproj", "{85179650-6EE0-4B49-A2C5-5D836A394A65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "miArray", "miArray\miArray.csproj", "{B56F8469-3298-442B-A548-B9E878304E4B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{85179650-6EE0-4B49-A2C5-5D836A394A65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85179650-6EE0-4B49-A2C5-5D836A394A65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85179650-6EE0-4B49-A2C5-5D836A394A65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85179650-6EE0-4B49-A2C5-5D836A394A65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B56F8469-3298-442B-A548-B9E878304E4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B56F8469-3298-442B-A548-B9E878304E4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B56F8469-3298-442B-A548-B9E878304E4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B56F8469-3298-442B-A548-B9E878304E4B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {02985DA2-B0E5-49AF-92DD-E267253DA58E}
+	EndGlobalSection
+EndGlobal
