@@ -21,13 +21,15 @@
 
         private void LlenarArrayConNumerosAleatorios()
         {
-            lock (_bloqueo)
+
+            for (int i = 0; i < _array.Length; i++)
             {
-                for (int i = 0; i < _array.Length; i++)
+                lock (_bloqueo)
                 {
                     _array[i] = _random.Next(0, _numerosAleatorio + 1);
                 }
             }
+
         }
 
         public int BuscarMayorPrimeraMitad()
