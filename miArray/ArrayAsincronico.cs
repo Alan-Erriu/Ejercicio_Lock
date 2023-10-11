@@ -2,18 +2,18 @@
 {
     public class ArrayAsincronico
     {
-        private int[] _Array;
+        private int[] _array;
         private int _numerosAleatorio;
-        private Random _generadorAleatorio;
+        private Random _random;
         private object _bloqueo = new object();
 
         public ArrayAsincronico(int tamañoArray, int numeroAleatorio)
         {
-            _Array = new int[tamañoArray];
+            _array = new int[tamañoArray];
 
             _numerosAleatorio = numeroAleatorio;
 
-            _generadorAleatorio = new Random(1);
+            _random = new Random();
 
             LlenarArrayConNumerosAleatorios();
 
@@ -23,73 +23,74 @@
         {
             lock (_bloqueo)
             {
-                for (int i = 0; i < _Array.Length; i++)
+                for (int i = 0; i < _array.Length; i++)
                 {
-                    _Array[i] = _generadorAleatorio.Next(0, _numerosAleatorio + 1);
+                    _array[i] = _random.Next(0, _numerosAleatorio + 1);
                 }
             }
         }
 
-        public async Task<int> BuscarMayorPrimeraMitad()
+        public int BuscarMayorPrimeraMitad()
         {
-            lock (_bloqueo)
+            var primeraMitad = _array.Length / 2;
+            var mayorEnPrimeraMitad = _array[0];
+
+
+            for (var i = 0; i < primeraMitad; i++)
             {
-                var primeraMitad = _Array.Length / 2;
-                var mayorEnPrimeraMitad = _Array[0];
-
-                for (var i = 0; i < primeraMitad; i++)
+                lock (_bloqueo)
                 {
-                    if (_Array[i] > mayorEnPrimeraMitad)
-                    { mayorEnPrimeraMitad = _Array[i]; }
-
+                    if (_array[i] > mayorEnPrimeraMitad)
+                    { mayorEnPrimeraMitad = _array[i]; }
 
                 }
-                return mayorEnPrimeraMitad;
+
             }
+            return mayorEnPrimeraMitad;
         }
-        public async Task<int> BuscarMayorSegundaMitad()
+
+
+
+        public int BuscarMayorSegundaMitad()
         {
-            lock (_bloqueo)
+
+            var primeraMitad = _array.Length / 2;
+            var mayorEnSegundaMitad = _array[0];
+
+            for (var i = primeraMitad; i < _array.Length; i++)
             {
-                var primeraMitad = _Array.Length / 2;
-                var mayorEnSegundaMitad = _Array[0];
-
-                for (var i = primeraMitad; i < _Array.Length; i++)
+                lock (_bloqueo)
                 {
-                    if (_Array[i] > mayorEnSegundaMitad)
-                    { mayorEnSegundaMitad = _Array[i]; }
-
+                    if (_array[i] > mayorEnSegundaMitad)
+                    { mayorEnSegundaMitad = _array[i]; }
                 }
-
-
-
-                return mayorEnSegundaMitad;
             }
+
+            return mayorEnSegundaMitad;
+
         }
 
         public async Task<int> BuscarMayorDelArrayCompleto()
         {
 
-            Task<int> mayorPrimeraMitad = BuscarMayorPrimeraMitad();
-            Task<int> mayorSegundaMitad = BuscarMayorSegundaMitad();
+            Task<int> tarea1 = Task.Run(() => BuscarMayorPrimeraMitad());
+            Task<int> tarea2 = Task.Run(() => BuscarMayorSegundaMitad());
+
+            await Task.WhenAll(tarea1, tarea2);
+
+            int numeroArrayPrimeramitad = tarea1.Result;
+            int numeroArraySegundaMitad = tarea2.Result;
 
 
-
-            await Task.WhenAll(mayorPrimeraMitad, mayorSegundaMitad);
-
-
-            int numeroArray1 = await mayorPrimeraMitad;
-            int numeroArray2 = await mayorSegundaMitad;
-
-            if (numeroArray1 < numeroArray2)
+            if (numeroArrayPrimeramitad < numeroArraySegundaMitad)
             {
-                Console.WriteLine(numeroArray2);
-                return numeroArray2;
+                Console.WriteLine($"El numero mayor se encontro en la segunda mitad y es: {numeroArraySegundaMitad}");
+                return numeroArraySegundaMitad;
             }
             else
             {
-                Console.WriteLine(numeroArray1);
-                return numeroArray1;
+                Console.WriteLine($"El numero mayor se encontro en la primera mitad y es: {numeroArrayPrimeramitad}");
+                return numeroArrayPrimeramitad;
             }
         }
     }
